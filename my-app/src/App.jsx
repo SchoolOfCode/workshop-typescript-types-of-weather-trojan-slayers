@@ -1,40 +1,27 @@
-  import { useEffect, useState } from "react";
-  import { createClient } from "@supabase/supabase-js";
+import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 
-  const supabase = createClient(" https://dosmthtitslppqluzxzu.supabase.co", "<eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvc210aHRpdHNscHBxbHV6eHp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU5NjQ5ODgsImV4cCI6MjA0MTU0MDk4OH0.w2zvUM9CU4zrp7p-pwWmMbN-y3IY0ugKCpj2cjav5iA>")
+const supabase = createClient("https://nvfnteqeutonfkqcejdt.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52Zm50ZXFldXRvbmZrcWNlamR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU5NjYyMTcsImV4cCI6MjA0MTU0MjIxN30.6o-WW5dDCzfP4iA0sirAeF_MdzsgFUjdpGL6Zu7NUbg");
 
-  function App() {
-    const [countries, setCountries] = useState([]);
-    const [loading,setLoading] = useState(true);
-    const [error, setError] =useState(null);
-    
+function App() {
+  const [countries, setCountries] = useState([]);
 
-    useEffect(() => {
-      getCountries();
-    }, []);
+  useEffect(() => {
+    getCountries();
+  }, []);
 
-    async function getCountries() {
-      try {
-      const { data, error } = await supabase.from("countries").select();
-      if(error) throw error
-      setCountries(data);
-    } catch(error){
-      console.log("Error fetching", error);
-      setError("Failed Fetching ");
-    } finally {
-      setLoading(false);
-    }
-  }
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-
-    return (
-      <ul>
-        {countries.map((country) => (
-          <li key={country.name}>{country.name}</li>
-        ))}
-      </ul>
-    );
+  async function getCountries() {
+    const { data } = await supabase.from("countries").select();
+    setCountries(data);
   }
 
-  export default App;
+  return (
+    <ul>
+      {countries.map((country) => (
+        <li key={country.name}>{country.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default App;
